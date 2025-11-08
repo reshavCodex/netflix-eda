@@ -13,40 +13,52 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------
-# 🌈 Adaptive Styling
+# 🌈 Adaptive Styling (Improved for Dark Mode)
 # -----------------------------------------------------------
 
-# Detect current Streamlit theme (light/dark)
 theme_base = st.get_option("theme.base")
 is_dark = theme_base == "dark"
 
-# Dynamic text & background colors
-bg_color = "#0E1117" if is_dark else "#fafafa"
-text_color = "#FFFFFF" if is_dark else "#333333"
+# Set colors depending on theme
+bg_color = "#0E1117" if is_dark else "#FFFFFF"
+text_color = "#FAFAFA" if is_dark else "#262730"
 highlight_color = "#E50914"  # Netflix red
+metric_value_color = "#FFFFFF" if is_dark else "#000000"
 
-# Custom style for all components
 st.markdown(f"""
     <style>
+        /* Base background and text color */
         .main {{
             background-color: {bg_color};
             color: {text_color};
         }}
+
         h1, h2, h3 {{
             color: {highlight_color};
         }}
-        .stMetric label, .stMarkdown, .stDataFrame {{
-            color: {text_color};
-        }}
-        .stMetricValue {{
-            color: {highlight_color} !important;
-        }}
-        .st-emotion-cache-10trblm, .st-emotion-cache-1v0mbdj {{
+
+        /* --- Metric Styling --- */
+        /* Metric label (small text) */
+        [data-testid="stMetricLabel"] {{
             color: {text_color} !important;
         }}
+
+        /* Metric value (numbers) */
+        [data-testid="stMetricValue"] {{
+            color: {metric_value_color} !important;
+            font-weight: 700 !important;
+        }}
+
+        /* Sidebar text */
+        [data-testid="stSidebar"] {{
+            color: {text_color};
+        }}
+
+        /* Remove footer */
         footer {{visibility: hidden;}}
     </style>
 """, unsafe_allow_html=True)
+
 
 # -----------------------------------------------------------
 # Load dataset
