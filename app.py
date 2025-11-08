@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # -----------------------------------------------------------
-# 🎬 Netflix Dashboard (Minimal & Elegant)
+# 🎬 Netflix Dashboard (Minimal & Theme Adaptive)
 # -----------------------------------------------------------
 
 # Page setup
@@ -12,19 +12,39 @@ st.set_page_config(
     page_icon="🎬"
 )
 
-# Custom minimalist style
-st.markdown("""
+# -----------------------------------------------------------
+# 🌈 Adaptive Styling
+# -----------------------------------------------------------
+
+# Detect current Streamlit theme (light/dark)
+theme_base = st.get_option("theme.base")
+is_dark = theme_base == "dark"
+
+# Dynamic text & background colors
+bg_color = "#0E1117" if is_dark else "#fafafa"
+text_color = "#FFFFFF" if is_dark else "#333333"
+highlight_color = "#E50914"  # Netflix red
+
+# Custom style for all components
+st.markdown(f"""
     <style>
-        .main {
-            background-color: #fafafa;
-        }
-        h1, h2, h3 {
-            color: #E50914;  /* Netflix red */
-        }
-        .stMetric label, .stMarkdown, .stDataFrame {
-            color: #333333;
-        }
-        footer {visibility: hidden;}
+        .main {{
+            background-color: {bg_color};
+            color: {text_color};
+        }}
+        h1, h2, h3 {{
+            color: {highlight_color};
+        }}
+        .stMetric label, .stMarkdown, .stDataFrame {{
+            color: {text_color};
+        }}
+        .stMetricValue {{
+            color: {highlight_color} !important;
+        }}
+        .st-emotion-cache-10trblm, .st-emotion-cache-1v0mbdj {{
+            color: {text_color} !important;
+        }}
+        footer {{visibility: hidden;}}
     </style>
 """, unsafe_allow_html=True)
 
@@ -46,7 +66,7 @@ df = load_data()
 # Header
 # -----------------------------------------------------------
 st.title("🎬 Netflix Movies & TV Shows Dashboard")
-st.caption("A clean, minimal, and interactive EDA dashboard")
+st.caption("A clean, minimal, and adaptive EDA dashboard")
 
 # -----------------------------------------------------------
 # Sidebar Filters
@@ -139,4 +159,8 @@ with st.expander("🔍 View Raw Data"):
 # Footer
 # -----------------------------------------------------------
 st.markdown("---")
-st.markdown("Built with ❤️ using Streamlit | © 2025 Reshav Pradhan")
+st.markdown(
+    f"<p style='text-align:center; color:{text_color};'>"
+    f"Built with ❤️ using Streamlit | © 2025 Reshav Pradhan</p>",
+    unsafe_allow_html=True
+)
