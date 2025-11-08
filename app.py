@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import datetime as dt
 
 # -----------------------------------------------------------
-# 🎬 Netflix Dashboard (Cinematic & Minimal)
+# 🎬 Netflix Dashboard (Cinematic Animated Version)
 # -----------------------------------------------------------
 
 # Page setup
@@ -28,51 +28,88 @@ text_color = "#FFFFFF" if is_dark else "#1A1A1A"
 highlight_color = "#E50914"
 metric_value_color = "#FAFAFA" if is_dark else "#000000"
 
-# Custom CSS for layout & animations
+# Base styling
 st.markdown(f"""
-    <style>
-        /* Background gradient */
-        [data-testid="stAppViewContainer"] {{
-            background: linear-gradient(180deg, #000000 0%, #141414 50%, #000000 100%);
-        }}
+<style>
+/* ------------------------------------------ */
+/* Background & Sidebar                       */
+/* ------------------------------------------ */
+[data-testid="stAppViewContainer"] {{
+    background: linear-gradient(180deg, #000000 0%, #141414 50%, #000000 100%);
+}}
+[data-testid="stSidebar"] {{
+    background-color: #141414;
+    color: {text_color};
+}}
 
-        /* Sidebar styling */
-        [data-testid="stSidebar"] {{
-            background-color: #141414;
-            color: {text_color};
-        }}
+/* ------------------------------------------ */
+/* Netflix Glowing Title                      */
+/* ------------------------------------------ */
+h1 {{
+    font-weight: 900 !important;
+    color: {highlight_color} !important;
+    text-shadow: 0px 0px 15px rgba(229, 9, 20, 0.7),
+                 0px 0px 25px rgba(229, 9, 20, 0.5);
+    text-align: center;
+}}
 
-        /* Netflix red glowing title */
-        h1 {{
-            font-weight: 900 !important;
-            color: {highlight_color} !important;
-            text-shadow: 0px 0px 15px rgba(229, 9, 20, 0.7),
-                         0px 0px 25px rgba(229, 9, 20, 0.5);
-            animation: fadeIn 2s ease-in-out;
-            text-align: center;
-        }}
+/* ------------------------------------------ */
+/* Subheadings                                */
+/* ------------------------------------------ */
+h2, h3 {{
+    color: {highlight_color};
+}}
 
-        @keyframes fadeIn {{
-            from {{opacity: 0; transform: translateY(-10px);}}
-            to {{opacity: 1; transform: translateY(0);}}
-        }}
+/* ------------------------------------------ */
+/* Metric Styling                             */
+/* ------------------------------------------ */
+[data-testid="stMetricLabel"] {{
+    color: {text_color} !important;
+}}
+[data-testid="stMetricValue"] {{
+    color: {metric_value_color} !important;
+    font-weight: 700 !important;
+}}
+footer {{visibility: hidden;}}
+</style>
+""", unsafe_allow_html=True)
 
-        h2, h3 {{
-            color: {highlight_color};
-        }}
+# -----------------------------------------------------------
+# ✨ Fade-In & Hover Animations
+# -----------------------------------------------------------
 
-        /* Metric & label text */
-        [data-testid="stMetricLabel"] {{
-            color: {text_color} !important;
-        }}
+st.markdown("""
+<style>
+/* ------------------------------------------ */
+/* Fade-In Animation for Header & Sections     */
+/* ------------------------------------------ */
+@keyframes fadeInSmooth {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
 
-        [data-testid="stMetricValue"] {{
-            color: {metric_value_color} !important;
-            font-weight: 700 !important;
-        }}
+h1, h2, h3, .stMarkdown {
+    animation: fadeInSmooth 1.5s ease-in-out;
+}
 
-        footer {{visibility: hidden;}}
-    </style>
+/* ------------------------------------------ */
+/* Hover Effect for Cards                     */
+/* ------------------------------------------ */
+div[data-testid="stMarkdownContainer"] div[style*="background-color:#141414"] {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+div[data-testid="stMarkdownContainer"] div[style*="background-color:#141414"]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+}
+
+/* ------------------------------------------ */
+/* Fade-in for charts                         */
+/* ------------------------------------------ */
+[data-testid="stVegaLiteChart"], [data-testid="stBarChart"], [data-testid="stLineChart"] {
+    animation: fadeInSmooth 1.2s ease-in-out;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------
